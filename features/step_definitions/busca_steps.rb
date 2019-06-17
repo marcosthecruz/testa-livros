@@ -10,8 +10,6 @@ Quando("entro no link do primeiro livro apresentado") do
 
     #find(:xpath, '//img[contains(@class, "ImageUI-tfgbp7-2")][1]').click
     find(:xpath, '//img[contains(@alt, "Box Livro - Para Todos os Garotos Que Já Amei")]').click
-    sleep 2
-
 end
  
 Quando("Consulto qual é o {string} do livro") do |isbn|
