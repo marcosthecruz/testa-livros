@@ -37,8 +37,8 @@ Quando("faço a busca do livro com o ISBN {string}") do |isbn|
   sleep 10
 
   visit "https://www.livrariacultura.com.br/"
-  find("#Ntt-responsive").set "855100249X"
-  find("#search-box-submit").click
+  find(".fulltext-search-box").set "855100249X"
+  find(".btn-buscar").click
   sleep 5
 end
 
