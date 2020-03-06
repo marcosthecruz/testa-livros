@@ -1,33 +1,49 @@
 
+include Capybara::DSL
 
 Dado("que eu acesso a página principal {string}") do |pagina|
-    visit 'https://www.submarino.com.br/'
+  visit "/livros"
 end
-  
+
+Quando("eu pesquiso por livros") do
+  search = find("#h_search-input") # barra de pesquisa
+  search.set("Livros")
+  #find("#h_search-btn").click #Clica no botão pesquisar
+  sleep 5
+end
 
 Quando("entro no link do primeiro livro apresentado") do
-    expect(page).to have_content 'Confira os livros mais vendidos'
-
-    #find(:xpath, '//img[contains(@class, "ImageUI-tfgbp7-2")][1]').click
-    find(:xpath, '//img[contains(@alt, "Box Livro - Para Todos os Garotos Que Já Amei")]').click
+  find(".src-suggestion .as-lst .sz-1").click # Clica no primeiro livro apresentado
+  sleep 5
 end
- 
+
 Quando("Consulto qual é o {string} do livro") do |isbn|
-    #@isbn = find('span[class="text__TextUI-sc-1hrwx40-0 hLVftz"]')
-    #@ISBN = find(:xpath, '//span[contains(@class, "text__TextUI-sc-1hrwx40-0 hLVftz")]')
+  ficha_tec = find("#content")
+  ficha_tec.find("h2[class$='fqkQfk']", text: "Ficha técnica")
+  @isbn = find("tr.Tr-sc-1wy23hs-3:nth-child(11) > td:nth-child(2) > span:nth-child(1)").text #Pega o isbn do livro
+  #   if isbn.length == 10
+  #   end
+end
+
+Então("verifico qual é o {string} do livro") do |autor|
+  @autor = find(".author-name__AuthorLink-sc-19niywj-0").text
+  sleep 5
+end
+
+Quando("faço a busca do livro com o ISBN {string}") do |isbn|
+  visit "https://www.amazon.com.br/"
+  find("#twotabsearchtextbox").set "855100249X"
+  find(:xpath, '//input[contains(@tabindex, "20")]').click
+  sleep 10
+
+  visit "https://www.livrariacultura.com.br/"
+  find("#Ntt-responsive").set "855100249X"
+  find("#search-box-submit").click
+  sleep 5
 end
 
 Então("verifico qual é o autor do livro") do
-    #@autor = find(:xpath, '//a[contains(@class, "author-name__AuthorLink-sc-19niywj-0")]')
-    #expect(@autor.text).to eql 'Jenny Han'
+  pending # Write code here that turns the phrase above into concrete actions
 end
-  
-Quando("faço a busca do livro com o ISBN {string}") do |isbn|
-    visit 'https://www.amazon.com.br/'
-    find('#twotabsearchtextbox').set "855100204X"
-    find(:xpath, '//input[contains(@tabindex, "20")]').click
-    visit 'https://www.livrariacultura.com.br/'
-    find('#Ntt-responsive').set "855100204X"
-    find('#search-box-submit').click
-    sleep 5
-end
+
+# Ultima vesão do documento 06/03/2020
