@@ -3,9 +3,9 @@ require "capybara/cucumber"
 require "selenium-webdriver"
 
 Capybara.configure do |config|
-  config.default_driver = :selenium#_chrome
+  config.default_driver = :selenium #_chrome
   config.app_host = "https://www.submarino.com.br/"
-  config.default_max_wait_time = 10
+  config.default_max_wait_time = 15
 end
 
 # Capybara.register_driver :selenium do |app|

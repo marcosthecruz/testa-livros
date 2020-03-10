@@ -2,7 +2,7 @@
 include Capybara::DSL
 
 Dado("que eu acesso a página principal {string}") do |pagina|
-  visit "/livros"
+  visit "/"
 end
 
 Quando("eu pesquiso por livros") do
@@ -19,20 +19,21 @@ end
 
 Quando("Consulto qual é o {string} do livro") do |isbn|
   ficha_tec = find("#content")
-  ficha_tec.find("h2[class$='fqkQfk']", text: "Ficha técnica")
-  @isbn = find("tr.Tr-sc-1wy23hs-3:nth-child(11) > td:nth-child(2) > span:nth-child(1)").text #Pega o isbn do livro
-  #   if isbn.length == 10
-  #   end
+  #puts ficha_tec
+  #expect(find(ficha_tec.find("h2[class$='fqkQfk']", text: "Ficha técnica"))).visible?
+  #puts isbn10
 end
 
 Então("verifico qual é o {string} do livro") do |autor|
-  @autor = find(".author-name__AuthorLink-sc-19niywj-0").text
-  sleep 5
+  puts @livros_infos.autor
 end
 
+# Buscando Livro com mesmo ISBN em outra página:
+
 Quando("faço a busca do livro com o ISBN {string}") do |isbn|
+  isbn = CodigoIsbn.new
   visit "https://www.amazon.com.br/"
-  find("#twotabsearchtextbox").set "855100249X"
+  find("#twotabsearchtextbox").set isbn.isbn10
   find(:xpath, '//input[contains(@tabindex, "20")]').click
   sleep 10
 
