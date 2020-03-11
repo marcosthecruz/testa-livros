@@ -17,9 +17,12 @@ Quando("entro no link do primeiro livro apresentado") do
   sleep 5
 end
 
-Quando("Consulto qual é o {string} do livro") do |isbn|
+Quando("Consulto qual é o {string} do livro") do |isbn_OK|
   ficha_tec = find("#content")
-  #puts ficha_tec
+  puts @livros_infos.isbn(isbn_OK)
+
+  @isbn = @livros_infos.isbn(isbn_OK)
+
   #expect(find(ficha_tec.find("h2[class$='fqkQfk']", text: "Ficha técnica"))).visible?
   #puts isbn10
 end
@@ -30,17 +33,18 @@ end
 
 # Buscando Livro com mesmo ISBN em outra página:
 
-Quando("faço a busca do livro com o ISBN {string}") do |isbn|
-  isbn = CodigoIsbn.new
+Então("faço a busca do livro com o ISBN {string}") do |isbn|
   visit "https://www.amazon.com.br/"
-  find("#twotabsearchtextbox").set isbn.isbn10
+
+  @livros_infos.set_isbn.set @isbn
+
   find(:xpath, '//input[contains(@tabindex, "20")]').click
   sleep 10
 
-  visit "https://www.livrariacultura.com.br/"
-  find(".fulltext-search-box").set "855100249X"
-  find(".btn-buscar").click
-  sleep 5
+  # visit "https://www.livrariacultura.com.br/"
+  # find(".fulltext-search-box").set "855100249X"
+  # find(".btn-buscar").click
+  # sleep 5
 end
 
 Então("verifico qual é o autor do livro") do
